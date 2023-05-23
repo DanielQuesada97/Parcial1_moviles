@@ -1,7 +1,8 @@
-package com.quesada.parquetracker
+package com.quesada.parquetracker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.quesada.parquetracker.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
