@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.quesada.parquetracker.R
+import com.quesada.parquetracker.data.model.ParkModel
 import com.quesada.parquetracker.databinding.FragmentParkListBinding
 import com.quesada.parquetracker.ui.park.parklist.recyclerview.ParkRecyclerViewAdapter
 import com.quesada.parquetracker.ui.park.viewmodel.ParkViewModel
@@ -38,10 +40,10 @@ class ParkListFragment : Fragment() {
         // Set up the RecyclerView and click listener
         setRecyclerView(view)
 
-        // Clear data in GameViewModel and navigate to NewGameFragment on FloatingActionButton click
+        // Clear data in ParkViewModel and navigate to NewParkFragment on FloatingActionButton click
         binding.floatBotton.setOnClickListener {
             parkViewModel.clearData()
-            it.findNavController().navigate(R.id.action_gameListFragment_to_newGameFragment)
+            it.findNavController().navigate(R.id.action_parkListFragment_to_newParkFragment)
         }
     }
 
@@ -50,26 +52,26 @@ class ParkListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         // Initialize the adapter with a click listener lambda expression
-        adapter = GameRecyclerViewAdapter { selectedGame ->
-            showSelectedItem(selectedGame)
+        adapter = ParkRecyclerViewAdapter { selectedPark ->
+            showSelectedItem(selectedPark)
         }
 
         // Set the adapter for the RecyclerView
         binding.recyclerView.adapter = adapter
 
         // Display the games in the RecyclerView
-        displayGames()
+        displayParks()
     }
 
-    private fun showSelectedItem(game: GameModel) {
+    private fun showSelectedItem(park: ParkModel) {
         // Set the selected game in the gameViewModel and navigate to gameFragment
-        gameViewModel.setSelectedGame(game)
-        findNavController().navigate(R.id.action_gameListFragment_to_gameFragment)
+        parkViewModel.setSelectedPark(park)
+        findNavController().navigate(R.id.action_parkListFragment_to_parkFragment)
     }
 
-    private fun displayGames() {
+    private fun displayParks() {
         // Update the adapter's game data with the games from GameViewModel and notify the adapter
-        adapter.setData(gameViewModel.getGames())
+        adapter.setData(parkViewModel.getParks())
         adapter.notifyDataSetChanged()
     }
 }
