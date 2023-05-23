@@ -5,29 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.quesada.parquetracker.R
+import com.quesada.parquetracker.databinding.FragmentParkListBinding
+import com.quesada.parquetracker.ui.park.parklist.recyclerview.ParkRecyclerViewAdapter
+import com.quesada.parquetracker.ui.park.viewmodel.ParkViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ParkListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ParkListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var adapter: ParkRecyclerViewAdapter
+    private lateinit var binding: FragmentParkListBinding
+
+    // Obtain the shared instance of ParkViewModel using activityViewModels delegate
+    private val parkViewModel: ParkViewModel by activityViewModels {
+        ParkViewModel.Factory
     }
 
     override fun onCreateView(
@@ -35,26 +28,48 @@ class ParkListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_park_list, container, false)
+        binding = FragmentParkListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ParkListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ParkListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set up the RecyclerView and click listener
+        setRecyclerView(view)
+
+        // Clear data in GameViewModel and navigate to NewGameFragment on FloatingActionButton click
+        binding.floatBotton.setOnClickListener {
+            parkViewModel.clearData()
+            it.findNavController().navigate(R.id.action_gameListFragment_to_newGameFragment)
+        }
+    }
+
+    private fun setRecyclerView(view: View) {
+        // Set the layout manager for the RecyclerView
+        binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
+
+        // Initialize the adapter with a click listener lambda expression
+        adapter = GameRecyclerViewAdapter { selectedGame ->
+            showSelectedItem(selectedGame)
+        }
+
+        // Set the adapter for the RecyclerView
+        binding.recyclerView.adapter = adapter
+
+        // Display the games in the RecyclerView
+        displayGames()
+    }
+
+    private fun showSelectedItem(game: GameModel) {
+        // Set the selected game in the gameViewModel and navigate to gameFragment
+        gameViewModel.setSelectedGame(game)
+        findNavController().navigate(R.id.action_gameListFragment_to_gameFragment)
+    }
+
+    private fun displayGames() {
+        // Update the adapter's game data with the games from GameViewModel and notify the adapter
+        adapter.setData(gameViewModel.getGames())
+        adapter.notifyDataSetChanged()
     }
 }
