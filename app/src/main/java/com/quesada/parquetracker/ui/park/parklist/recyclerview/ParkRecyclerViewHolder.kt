@@ -5,7 +5,6 @@ import com.quesada.parquetracker.data.model.ParkModel
 import com.quesada.parquetracker.databinding.ParkItemBinding
 
 class ParkRecyclerViewHolder(private val binding: ParkItemBinding) : RecyclerView.ViewHolder(binding.root) {
-    // Function to bind the park data to the ViewHolder
     fun bind(park: ParkModel, clickListener: (ParkModel) -> Unit) {
         // Set the title TextView with the park name
         binding.titleTextView.text = park.name

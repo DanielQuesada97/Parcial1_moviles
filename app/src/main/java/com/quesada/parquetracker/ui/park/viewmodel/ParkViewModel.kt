@@ -11,7 +11,6 @@ import com.quesada.parquetracker.repositories.ParkRepository
 
 class ParkViewModel(private val repository: ParkRepository) : ViewModel() {
 
-    // MutableLiveData fields to hold the input values for a park
     var name = MutableLiveData("")
     var location = MutableLiveData("")
     var description = MutableLiveData("")

@@ -66,7 +66,6 @@ class NewParkFragment : Fragment() {
     }
 
     private fun bind() {
-        // Bind the views to their respective variables
         nameEditText = view?.findViewById(R.id.nameTextField2) as EditText
         locationEditText = view?.findViewById(R.id.locationTextField2) as EditText
         descriptionEditText = view?.findViewById(R.id.descriptionTextField2) as EditText
