@@ -6,4 +6,7 @@
     <string name="description">Description</string>
     <string name="location">Location</string>
     <string name="name">Name</string>
+    <string name="parks">Parks</string>
+    <string name="park_name">Park Name</string>
+    <string name="location2">location</string>
 </resources>

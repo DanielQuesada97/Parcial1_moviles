@@ -3,8 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="backgroundLayout">#082032</color>
-    <color name="cardLayout">#2C394B</color>
-    <color name="location">#FFBD69</color>
-    <color name="buttonColor">#FF4C29</color>
+    <color name="backgroundLayout">#00425A</color>
+    <color name="cardLayout">#1F8A70</color>
+    <color name="location">#BFDB38</color>
+    <color name="buttonColor">#FC7300</color>
 </resources>
